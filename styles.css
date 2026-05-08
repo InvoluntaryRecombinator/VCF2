@@ -579,7 +579,24 @@ button:disabled {
 
 body.rave-mode {
   background: #000000;
+  background-image:
+    linear-gradient(180deg, rgba(98, 0, 255, 0.22), rgba(0, 0, 0, 0) 28%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.96) 0 20px,
+      rgba(161, 0, 255, 0.26) 20px 22px,
+      rgba(0, 0, 0, 0.96) 22px 42px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.94) 0 28px,
+      rgba(187, 0, 255, 0.22) 28px 30px,
+      rgba(0, 0, 0, 0.94) 30px 58px
+    );
+  background-size: 100% 100%, 100% 84px, 116px 100%;
+  background-position: 0 0, 0 0, 0 0;
   color: #ffffff;
+  animation: rave-grid-pan 900ms linear infinite;
 }
 
 body.rave-mode .portal-shell {
@@ -587,6 +604,88 @@ body.rave-mode .portal-shell {
   transform: translateY(36px) scale(0.92);
   filter: blur(14px);
   pointer-events: none;
+}
+
+body.rave-mode::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 14;
+  width: 3px;
+  height: 3px;
+  pointer-events: none;
+  opacity: 0.42;
+  background: #ffffff;
+  box-shadow:
+    18px 26px #ffffff,
+    52px 74px #b7ffff,
+    96px 42px #ffffff,
+    140px 118px #e6ffff,
+    178px 56px #9fffff,
+    224px 90px #ffffff,
+    268px 154px #d7ffff,
+    314px 62px #ffffff,
+    358px 208px #7efcff,
+    404px 34px #ffffff,
+    442px 126px #c4ffff,
+    488px 188px #ffffff,
+    536px 80px #84ffff,
+    582px 148px #ffffff,
+    626px 236px #a8ffff,
+    672px 104px #ffffff,
+    718px 176px #d0ffff,
+    764px 54px #ffffff,
+    808px 214px #7cffff,
+    854px 132px #ffffff,
+    900px 246px #b0ffff,
+    946px 68px #ffffff,
+    992px 168px #dbffff,
+    1038px 116px #ffffff,
+    1084px 204px #8bffff,
+    1128px 84px #ffffff,
+    1172px 226px #ccffff,
+    1218px 52px #ffffff,
+    1264px 156px #8affff,
+    1310px 98px #ffffff,
+    1356px 188px #dfffff,
+    1400px 40px #ffffff,
+    1446px 142px #7efeff,
+    1492px 232px #ffffff,
+    1538px 74px #b2ffff,
+    1584px 170px #ffffff,
+    1630px 120px #dcffff,
+    1676px 214px #ffffff,
+    1720px 58px #8dffff,
+    1766px 146px #ffffff,
+    1812px 242px #cbffff,
+    1858px 96px #ffffff,
+    1902px 184px #8affff,
+    1948px 30px #ffffff,
+    1992px 136px #d7ffff,
+    2038px 220px #ffffff,
+    2084px 76px #7cfbff,
+    2128px 160px #ffffff,
+    2174px 250px #cbffff,
+    2220px 108px #ffffff,
+    2266px 198px #92ffff,
+    2312px 48px #ffffff,
+    2356px 144px #d0ffff,
+    2402px 228px #ffffff,
+    2448px 90px #7fffff,
+    2492px 174px #ffffff,
+    2538px 24px #bffcff,
+    2584px 128px #ffffff,
+    2630px 216px #9fffff,
+    2676px 70px #ffffff,
+    2720px 162px #c9ffff,
+    2766px 238px #ffffff,
+    2812px 112px #89ffff,
+    2858px 200px #ffffff,
+    2902px 60px #dfffff,
+    2948px 152px #ffffff,
+    2994px 244px #85ffff;
+  animation: strobe-glitter 180ms steps(2, end) infinite;
 }
 
 body.rave-mode::after {
@@ -606,19 +705,20 @@ body.rave-mode::after {
 body.rave-mode .canvas-stage {
   opacity: 1;
   transform: scale(1);
-  filter: saturate(1.95) contrast(1.4) brightness(1.08) hue-rotate(14deg);
-  animation: bass-bounce 0.4s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+  filter: contrast(2.5) saturate(4) brightness(1.08) hue-rotate(0deg);
+  mix-blend-mode: screen;
+  animation: bass-bounce 0.4s steps(2, end) infinite;
   -webkit-mask-image: none;
   mask-image: none;
 }
 
 body.rave-mode #tripCanvas {
   filter:
-    contrast(1.45)
-    saturate(1.8)
-    hue-rotate(18deg)
-    brightness(1.04)
-    drop-shadow(0 0 24px rgba(255, 255, 255, 0.34));
+    contrast(250%)
+    saturate(400%)
+    drop-shadow(0 0 60px #ff00ff)
+    hue-rotate(360deg);
+  animation: rave-hue-fry 1.2s linear infinite;
 }
 
 .laser-show {
@@ -627,7 +727,8 @@ body.rave-mode #tripCanvas {
   z-index: 16;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 220ms ease;
+  overflow: visible;
+  transition: opacity 120ms ease;
 }
 
 body.rave-mode .laser-show {
@@ -641,6 +742,33 @@ body.rave-mode .laser-show {
   height: 120vh;
   transform-origin: center top;
   opacity: 0.92;
+}
+
+.hardcore-laser {
+  position: absolute;
+  top: -25vh;
+  left: 50%;
+  width: 4px;
+  height: 150vh;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: translateX(-50%) rotate(var(--laser-angle, 0deg));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 255, 255, 0.92) 18%,
+    rgba(255, 0, 187, 1) 52%,
+    rgba(145, 255, 0, 0.94) 84%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: hue-rotate(var(--laser-hue, 0deg));
+  box-shadow:
+    0 0 14px rgba(0, 255, 255, 0.94),
+    0 0 42px rgba(255, 0, 187, 0.92),
+    0 0 88px rgba(145, 255, 0, 0.84),
+    0 0 128px rgba(255, 255, 255, 0.46);
+  animation: laser-spin 1.1s linear infinite;
 }
 
 .beam-one,
@@ -692,17 +820,18 @@ body.rave-mode .laser-show {
   pointer-events: none;
   color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 4rem;
+  font-size: 6rem;
   font-weight: 900;
+  font-style: italic;
   line-height: 0.96;
   letter-spacing: 0.18em;
   text-align: center;
   text-transform: uppercase;
   transform: translateX(-50%) scale(0.94);
   text-shadow:
-    -4px 0 0 #00eaff,
-    4px 0 0 #ff00aa,
-    0 0 18px rgba(255, 255, 255, 0.5);
+    -6px 0 0 #ff0033,
+    6px 0 0 #00a2ff,
+    0 0 22px rgba(255, 255, 255, 0.54);
   transition:
     opacity 260ms ease,
     transform 260ms ease;
@@ -711,7 +840,7 @@ body.rave-mode .laser-show {
 .rave-text-overlay.visible {
   opacity: 1;
   transform: translateX(-50%) scale(1);
-  animation: rgb-jitter 120ms steps(2, end) infinite;
+  animation: glitch 120ms steps(2, end) infinite;
 }
 
 #flashOverlay {
@@ -892,10 +1021,16 @@ body.rave-mode .laser-show {
 @keyframes bass-bounce {
   0%,
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.2) rotate(-5deg);
   }
   50% {
-    transform: scale(1.15);
+    transform: scale(0.9) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.14) rotate(-3deg);
   }
 }
 
@@ -916,6 +1051,31 @@ body.rave-mode .laser-show {
   }
 }
 
+@keyframes strobe-glitter {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  25% {
+    opacity: 0.54;
+  }
+  50% {
+    opacity: 0.08;
+  }
+  75% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes rave-grid-pan {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 0, 0 84px, 0 0;
+  }
+}
+
 @keyframes sweep {
   0% {
     transform: translate3d(-16vw, -8vh, 0) rotate(-72deg) scaleY(0.9);
@@ -928,18 +1088,71 @@ body.rave-mode .laser-show {
   }
 }
 
-@keyframes rgb-jitter {
+@keyframes laser-spin {
   0%,
   100% {
-    text-shadow:
-      -4px 0 0 #00eaff,
-      4px 0 0 #ff00aa,
-      0 0 18px rgba(255, 255, 255, 0.5);
+    opacity: 0.12;
+    transform: translateX(calc(-50% + var(--laser-drift, 0vw))) rotate(var(--laser-angle, 0deg));
+  }
+  12% {
+    opacity: 0.92;
+  }
+  48% {
+    opacity: 0.34;
+    transform: translateX(calc(-50% - var(--laser-drift, 0vw))) rotate(calc(var(--laser-angle, 0deg) + 180deg));
+  }
+  72% {
+    opacity: 1;
+  }
+}
+
+@keyframes rave-hue-fry {
+  0% {
+    filter: contrast(250%) saturate(400%) drop-shadow(0 0 60px #ff00ff) hue-rotate(0deg);
   }
   50% {
+    filter: contrast(290%) saturate(480%) drop-shadow(0 0 80px #00f6ff) hue-rotate(180deg);
+  }
+  100% {
+    filter: contrast(250%) saturate(400%) drop-shadow(0 0 60px #7dff00) hue-rotate(360deg);
+  }
+}
+
+@keyframes glitch {
+  0%,
+  100% {
+    transform: translateX(-50%) translate(0, 0) scale(1);
     text-shadow:
-      -6px 1px 0 #00eaff,
-      6px -1px 0 #ff00aa,
-      0 0 24px rgba(255, 255, 255, 0.64);
+      -6px 0 0 #ff0033,
+      6px 0 0 #00a2ff,
+      0 0 22px rgba(255, 255, 255, 0.54);
+  }
+  20% {
+    transform: translateX(-50%) translate(2px, -2px) scale(1.01);
+    text-shadow:
+      -8px 0 0 #45ff00,
+      8px 0 0 #ff00c8,
+      0 0 24px rgba(255, 255, 255, 0.68);
+  }
+  40% {
+    transform: translateX(-50%) translate(-3px, 1px) scale(0.99);
+    text-shadow:
+      -5px -1px 0 #ff0033,
+      5px 1px 0 #00a2ff,
+      0 0 28px rgba(255, 255, 255, 0.62);
+  }
+  60% {
+    transform: translateX(-50%) translate(3px, 2px) scale(1.02);
+    text-shadow:
+      -9px 1px 0 #45ff00,
+      9px -1px 0 #ff00c8,
+      0 0 32px rgba(255, 255, 255, 0.72);
+  }
+  80% {
+    transform: translateX(-50%) translate(-2px, -3px) scale(1);
+    text-shadow:
+      -7px 0 0 #ff0033,
+      7px 0 0 #00a2ff,
+      0 0 26px rgba(255, 255, 255, 0.58);
   }
 }

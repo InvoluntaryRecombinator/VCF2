@@ -386,12 +386,33 @@ async function startRaveSequence() {
   await wakeAudio();
 
   state.phase = 2;
+  elements.tripBtn.disabled = true;
+  elements.raveBtn.disabled = true;
   elements.tripBtn.classList.remove("visible");
   elements.raveBtn.classList.remove("visible");
   elements.tripBtn.classList.add("hidden");
   elements.raveBtn.classList.add("hidden");
   elements.raveAudio.loop = true;
   playAudio(elements.raveAudio, false);
+
+  elements.laserShow.innerHTML = "";
+
+  for (let index = 0; index < 25; index += 1) {
+    const laser = document.createElement("div");
+    const delay = Math.random() * 2;
+    const duration = 0.7 + Math.random() * 1.1;
+    const angle = -180 + Math.random() * 360;
+    const drift = -40 + Math.random() * 80;
+
+    laser.className = "hardcore-laser";
+    laser.style.animationDelay = `${delay.toFixed(2)}s`;
+    laser.style.animationDuration = `${duration.toFixed(2)}s`;
+    laser.style.setProperty("--laser-angle", `${angle.toFixed(2)}deg`);
+    laser.style.setProperty("--laser-drift", `${drift.toFixed(2)}vw`);
+    laser.style.setProperty("--laser-hue", `${Math.round(Math.random() * 360)}deg`);
+    laser.style.transform = `translateX(-50%) rotate(${angle.toFixed(2)}deg)`;
+    elements.laserShow.appendChild(laser);
+  }
 
   elements.body.classList.add("rave-mode");
   elements.canvasStage.classList.add("active");
