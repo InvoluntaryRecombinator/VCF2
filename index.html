@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Verification Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="phase-corporate">
+    <svg class="filter-bank" aria-hidden="true" focusable="false" width="0" height="0">
+      <filter id="acid-wave">
+        <feTurbulence
+          id="acidNoise"
+          type="fractalNoise"
+          baseFrequency="0.015"
+          numOctaves="2"
+          result="noise"
+        />
+        <feDisplacementMap
+          id="displace"
+          in="SourceGraphic"
+          in2="noise"
+          scale="30"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </svg>
+
+    <div id="flashOverlay" aria-hidden="true"></div>
+    <div id="lavaLamp" class="lava-lamp" aria-hidden="true"></div>
+
+    <main class="portal-shell">
+      <section class="portal-card" aria-labelledby="portalTitle">
+        <div class="portal-chrome">
+          <span>Employee Verification</span>
+          <span>Secure Session</span>
+        </div>
+
+        <div class="portal-copy">
+          <p class="portal-kicker">Identity Assurance Suite</p>
+          <h1 id="portalTitle">Employee Verification Portal</h1>
+          <p class="portal-subcopy">
+            Please provide a live facial capture before continuing to restricted
+            cultural programming.
+          </p>
+          <p id="statusLine" class="status-line" aria-live="polite">
+            Initializing optical verification device...
+          </p>
+        </div>
+
+        <div id="cameraStage" class="camera-stage">
+          <video id="webcam" autoplay playsinline muted></video>
+
+          <div id="cameraFallback" class="camera-fallback hidden" aria-live="polite">
+            <img
+              id="fallbackImage"
+              alt="Mock fallback identity preview generated after camera failure"
+            />
+            <p>Camera unavailable. Mock verification artifact injected.</p>
+          </div>
+
+          <canvas
+            id="snapshotCanvas"
+            class="snapshot-canvas hidden"
+            aria-label="Captured identity frame"
+          ></canvas>
+        </div>
+
+        <div class="button-stack">
+          <button id="verifyBtn" class="corp-button" type="button" disabled>
+            Verify Identity
+          </button>
+          <button id="tripBtn" class="trip-button hidden" type="button">
+            Take a trip to Vibe Code Fridays?
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <div id="canvasStage" class="canvas-stage" aria-hidden="true">
+      <canvas id="tripCanvas"></canvas>
+    </div>
+
+    <div
+      id="mantraOverlay"
+      class="mantra-overlay"
+      aria-live="polite"
+      data-text="Welcome to Vibe Code Fridays. Surrender to the flow."
+    >
+      <span class="mantra-text">Welcome to Vibe Code Fridays. Surrender to the flow.</span>
+    </div>
+    <button id="resetBtn" class="reset-button hidden" type="button">
+      Take me back to boring regular life
+    </button>
+
+    <canvas id="captureStoreCanvas" class="capture-store" aria-hidden="true"></canvas>
+
+    <audio id="shutterAudio" src="assets/shutter_click.wav" preload="auto"></audio>
+    <audio id="folkAudio" src="assets/VCF_folk.mp3" preload="auto"></audio>
+
+    <script src="app.js"></script>
+  </body>
+</html>
