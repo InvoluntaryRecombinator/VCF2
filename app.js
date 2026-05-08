@@ -355,12 +355,12 @@ async function startTripSequence() {
 
   beginCreepPhase();
   startMeltdownPhase();
+  queuePhase(intensifyAcidWave, 2000);
+  queuePhase(showMantraOverlay, 4000);
   queuePhase(startColorBleedPhase, 5000);
-  queuePhase(intensifyAcidWave, 8000);
+  queuePhase(deepenAcidWave, 6000);
   queuePhase(startComeDownPhase, 10000);
-  queuePhase(deepenAcidWave, 15000);
-  queuePhase(showMantraOverlay, 20000);
-  queuePhase(totalLiquefactionPhase, 25000);
+  queuePhase(totalLiquefactionPhase, 12000);
 }
 
 function beginCreepPhase() {
@@ -382,7 +382,7 @@ function startAcidWave() {
 
   state.acidWaveActive = true;
   elements.canvasStage.classList.add("rippling");
-  setDisplacementScale(10);
+  setDisplacementScale(2);
 
   const breathe = (time) => {
     const baseFrequency = 0.015 + Math.sin(time * 0.00065) * 0.005;
@@ -456,14 +456,20 @@ function startColorBleedPhase() {
 }
 
 function intensifyAcidWave() {
-  setDisplacementScale(80);
+  setDisplacementScale(30);
 }
 
 function deepenAcidWave() {
-  setDisplacementScale(150);
+  setDisplacementScale(100);
 }
 
 function showMantraOverlay() {
+  const mantraText = elements.mantraOverlay.querySelector(".mantra-text, .vibe-text");
+
+  if (mantraText) {
+    mantraText.innerHTML = "Welcome to Vibe Code Fridays.<br>Surrender to the flow.";
+  }
+
   elements.mantraOverlay.classList.add("visible");
 }
 
