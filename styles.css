@@ -505,14 +505,16 @@ button:disabled {
     transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mantra-text {
+.mantra-text,
+.vibe-text {
   display: inline-block;
   max-width: 920px;
   color: #fff2bb;
   font-family: "Shrikhand", "Trebuchet MS", sans-serif;
-  font-size: 8vw;
-  line-height: 1.12;
+  font-size: 5vw;
+  line-height: 1.2;
   letter-spacing: 0.02em;
+  white-space: normal;
   transform: perspective(500px) rotateX(15deg) translate3d(0, 0, 0);
   transform-origin: center center;
   will-change: transform, text-shadow;
@@ -532,7 +534,8 @@ button:disabled {
   transform: translateX(-50%) translateY(0);
 }
 
-.mantra-overlay.visible .mantra-text {
+.mantra-overlay.visible .mantra-text,
+.mantra-overlay.visible .vibe-text {
   animation: textBreathe 3200ms ease-in-out infinite alternate;
 }
 

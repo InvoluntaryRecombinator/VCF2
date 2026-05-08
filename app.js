@@ -356,10 +356,11 @@ async function startTripSequence() {
   beginCreepPhase();
   startMeltdownPhase();
   queuePhase(startColorBleedPhase, 5000);
-  queuePhase(intensifyAcidWave, 7500);
+  queuePhase(intensifyAcidWave, 8000);
   queuePhase(startComeDownPhase, 10000);
-  queuePhase(totalLiquefactionPhase, 15000);
+  queuePhase(deepenAcidWave, 15000);
   queuePhase(showMantraOverlay, 20000);
+  queuePhase(totalLiquefactionPhase, 25000);
 }
 
 function beginCreepPhase() {
@@ -381,7 +382,7 @@ function startAcidWave() {
 
   state.acidWaveActive = true;
   elements.canvasStage.classList.add("rippling");
-  setDisplacementScale(100);
+  setDisplacementScale(10);
 
   const breathe = (time) => {
     const baseFrequency = 0.015 + Math.sin(time * 0.00065) * 0.005;
@@ -402,9 +403,10 @@ function startMeltdownPhase() {
     const width = elements.tripCanvas.width;
     const height = elements.tripCanvas.height;
     const baseSpin = time * 0.00022;
-    const sweep = Math.sin(time * 0.0012) * 80;
-    const radius = Math.min(width, height) * 0.15 + sweep;
-    const pulse = 0.42 + Math.sin(time * 0.0009) * 0.04;
+    const bounceX = Math.sin(time * 0.0007) * (width / 3);
+    const bounceY = Math.cos(time * 0.0009) * (height / 3);
+    const radius = Math.min(width, height) * 0.22;
+    const pulse = 0.34 + Math.sin(time * 0.0009) * 0.04;
     const sliceRotation = (Math.PI * 2) / 6;
 
     const sourceWidth = elements.captureStoreCanvas.width;
@@ -418,15 +420,15 @@ function startMeltdownPhase() {
     tripCtx.globalCompositeOperation = "source-over";
 
     tripCtx.save();
-    tripCtx.translate(width / 2, height / 2);
+    tripCtx.translate(width / 2 + bounceX, height / 2 + bounceY);
     tripCtx.rotate(baseSpin);
 
     for (let index = 0; index < 6; index += 1) {
-      const wobble = Math.sin(time * 0.0014 + index * 0.9) * 40;
+      const spread = Math.sin(time * 0.001 + index * 0.9) * 280;
 
       tripCtx.save();
       tripCtx.rotate(sliceRotation * index);
-      tripCtx.translate(radius + wobble, 0);
+      tripCtx.translate(radius + spread, 0);
       tripCtx.rotate(baseSpin * 0.6 + Math.cos(time * 0.001 + index) * 0.18);
       tripCtx.globalAlpha = 0.3;
       tripCtx.drawImage(
@@ -454,7 +456,11 @@ function startColorBleedPhase() {
 }
 
 function intensifyAcidWave() {
-  setDisplacementScale(200);
+  setDisplacementScale(80);
+}
+
+function deepenAcidWave() {
+  setDisplacementScale(150);
 }
 
 function showMantraOverlay() {
