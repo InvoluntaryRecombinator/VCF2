@@ -271,8 +271,11 @@ body.trip-started .portal-shell {
   min-height: 142px;
   margin-top: auto;
   padding: 24px 24px 30px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 button {
@@ -321,50 +324,42 @@ button:disabled {
 
 .trip-button,
 .rave-button {
-  position: absolute;
-  left: 50%;
-  background: transparent;
-  border: none;
-  padding: 0;
-  box-shadow: none;
-}
-
-.trip-button {
-  top: 8px;
-  transform: translateX(-50%) translateY(20px) scale(0.96);
-}
-
-.rave-button {
-  top: 82px;
-  transform: translateX(-50%) translateY(20px) scale(0.96);
-}
-
-.trip-button img,
-.rave-button img {
-  display: block;
-  width: 228px;
-  height: auto;
-  transition:
-    transform 220ms ease,
-    filter 220ms ease;
+  transform: translateY(20px) scale(0.96);
 }
 
 .trip-button.visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translateY(0) scale(1);
 }
 
 .trip-button.visible + .rave-button {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translateY(0) scale(1);
 }
 
-.trip-button:hover img,
-.rave-button:hover img {
-  transform: scale(1.05);
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
+.png-reveal-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.png-reveal-btn img {
+  display: block;
+  max-width: 250px;
+  height: auto;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27),
+    filter 0.3s ease;
+}
+
+.png-reveal-btn:hover img {
+  transform: scale(1.08) translateY(-4px);
+  filter: drop-shadow(0 15px 25px rgba(255, 45, 209, 0.7));
 }
 
 .reset-button {
