@@ -39,20 +39,12 @@
     <main class="portal-shell">
       <section class="portal-card" aria-labelledby="portalTitle">
         <div class="portal-chrome">
-          <span>Employee Verification</span>
-          <span>Secure Session</span>
+          <span>Identity Assurance Suite</span>
         </div>
 
         <div class="portal-copy">
-          <p class="portal-kicker">Identity Assurance Suite</p>
-          <h1 id="portalTitle">Employee Verification Portal</h1>
-          <p class="portal-subcopy">
-            Please provide a live facial capture before continuing to restricted
-            cultural programming.
-          </p>
-          <p id="statusLine" class="status-line" aria-live="polite">
-            Initializing optical verification device...
-          </p>
+          <p class="portal-kicker">Employee Verification Badge</p>
+          <h1 id="portalTitle">Employee Verification</h1>
         </div>
 
         <div id="cameraStage" class="camera-stage">
@@ -73,12 +65,31 @@
           ></canvas>
         </div>
 
+        <div class="badge-metadata" aria-hidden="true">
+          <p><span>EMP-ID:</span> [PENDING SCAN]</p>
+          <p><span>CLEARANCE:</span> RESTRICTED</p>
+          <p><span>STATUS:</span> UNVERIFIED</p>
+        </div>
+
+        <p id="statusLine" class="status-line" aria-live="polite">
+          Initializing optical verification device...
+        </p>
+
         <div class="button-stack">
           <button id="verifyBtn" class="corp-button" type="button" disabled>
             Verify Identity
           </button>
-          <button id="tripBtn" class="trip-button hidden" type="button">
-            Take a trip to Vibe Code Fridays?
+          <button id="tripBtn" class="trip-button hidden" type="button" aria-label="Take a trip to Vibe Code Fridays">
+            <img src="trip_button.png" alt="Take a trip to Vibe Code Fridays" />
+          </button>
+          <button
+            id="raveBtn"
+            class="rave-button"
+            type="button"
+            aria-label="Enter the rave route"
+            onclick="document.getElementById('tripBtn').click()"
+          >
+            <img src="rave_button.png" alt="Enter the rave route" />
           </button>
         </div>
       </section>

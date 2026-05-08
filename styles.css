@@ -1,9 +1,10 @@
 :root {
-  --corp-bg: #f7f8fb;
-  --corp-panel: rgba(255, 255, 255, 0.96);
-  --corp-border: #cfd4dc;
-  --corp-text: #0f1724;
-  --corp-muted: #697386;
+  --corp-bg: #1a1a1a;
+  --corp-panel: #ffffff;
+  --corp-border: #d8d8d8;
+  --corp-text: #111111;
+  --corp-muted: #4b5563;
+  --corp-header: #003366;
   --trip-cream: #fff0c0;
   --trip-gold: #f8b63f;
   --trip-orange: #d95d21;
@@ -11,7 +12,7 @@
   --trip-magenta: #d53993;
   --trip-purple: #58216e;
   --trip-violet: #241033;
-  --shadow-soft: 0 30px 80px rgba(15, 23, 36, 0.14);
+  --shadow-soft: 0 26px 80px rgba(0, 0, 0, 0.42);
 }
 
 * {
@@ -65,81 +66,123 @@ body.trip-started .portal-shell {
 }
 
 .portal-card {
-  width: min(860px, 92vw);
-  padding: 22px 22px 26px;
+  position: relative;
+  width: 400px;
+  min-height: 600px;
+  padding: 0;
   background: var(--corp-panel);
-  border: 1px solid var(--corp-border);
-  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(10px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .portal-chrome {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  padding: 12px 14px;
-  border: 1px solid #d7dce4;
-  border-radius: 12px;
-  color: var(--corp-muted);
-  font-size: 12px;
+  width: 100%;
+  padding: 22px 24px 20px;
+  background: var(--corp-header);
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(239, 242, 247, 0.9));
+  text-align: center;
 }
 
 .portal-copy {
-  padding: 22px 10px 10px;
+  width: 100%;
+  padding: 24px 30px 0;
+  text-align: center;
 }
 
 .portal-kicker {
   margin: 0 0 10px;
-  color: #5f6b7a;
-  font-size: 12px;
+  color: #58667a;
+  font-size: 11px;
+  font-family: "Courier New", Courier, monospace;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.28em;
 }
 
 .portal-copy h1 {
   margin: 0;
-  font-size: 42px;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.portal-subcopy {
-  margin: 14px 0 12px;
-  max-width: 620px;
-  color: #526070;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #101010;
 }
 
 .status-line {
-  margin: 0;
-  min-height: 24px;
-  color: #7e8793;
-  font-size: 14px;
-  letter-spacing: 0.02em;
+  width: calc(100% - 60px);
+  margin: 16px 0 0;
+  min-height: 36px;
+  color: #5b6571;
+  font-size: 12px;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .status-line.error {
-  color: #d33333;
+  color: #a21919;
   font-weight: 700;
 }
 
 .camera-stage {
   position: relative;
-  width: 100%;
-  height: 460px;
+  width: 282px;
+  height: 282px;
   margin-top: 18px;
-  border: 1px solid #ccd3db;
-  border-radius: 18px;
+  border: 4px solid #000000;
+  border-radius: 14px;
   overflow: hidden;
+  background: #cfd3d8;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.camera-stage::before,
+.camera-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.camera-stage::before {
   background:
-    linear-gradient(180deg, #edf1f6 0%, #dde4ec 100%);
+    linear-gradient(
+      transparent calc(50% - 1px),
+      rgba(255, 255, 255, 0.42) calc(50% - 1px),
+      rgba(255, 255, 255, 0.42) calc(50% + 1px),
+      transparent calc(50% + 1px)
+    ),
+    linear-gradient(
+      90deg,
+      transparent calc(50% - 1px),
+      rgba(255, 255, 255, 0.42) calc(50% - 1px),
+      rgba(255, 255, 255, 0.42) calc(50% + 1px),
+      transparent calc(50% + 1px)
+    );
+}
+
+.camera-stage::after {
+  background:
+    linear-gradient(#ffffff, #ffffff) 12px 12px / 24px 2px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 12px 12px / 2px 24px no-repeat,
+    linear-gradient(#ffffff, #ffffff) calc(100% - 36px) 12px / 24px 2px no-repeat,
+    linear-gradient(#ffffff, #ffffff) calc(100% - 14px) 12px / 2px 24px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 12px calc(100% - 14px) / 24px 2px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 12px calc(100% - 36px) / 2px 24px no-repeat,
+    linear-gradient(#ffffff, #ffffff) calc(100% - 36px) calc(100% - 14px) / 24px 2px no-repeat,
+    linear-gradient(#ffffff, #ffffff) calc(100% - 14px) calc(100% - 36px) / 2px 24px no-repeat;
 }
 
 #webcam,
@@ -154,7 +197,7 @@ body.trip-started .portal-shell {
 #webcam {
   z-index: 2;
   object-fit: cover;
-  background: #d8dee6;
+  background: #c0c8d1;
 }
 
 .snapshot-canvas {
@@ -177,7 +220,7 @@ body.trip-started .portal-shell {
   display: grid;
   place-items: center;
   gap: 18px;
-  padding: 28px;
+  padding: 20px;
   text-align: center;
   background:
     radial-gradient(circle at top, rgba(255, 221, 221, 0.7), rgba(70, 0, 0, 0.15)),
@@ -185,8 +228,8 @@ body.trip-started .portal-shell {
 }
 
 .camera-fallback img {
-  width: min(100%, 580px);
-  max-height: 320px;
+  width: min(100%, 220px);
+  max-height: 180px;
   object-fit: contain;
   border: 1px solid rgba(155, 0, 0, 0.25);
   box-shadow: 0 18px 40px rgba(155, 0, 0, 0.18);
@@ -195,19 +238,41 @@ body.trip-started .portal-shell {
 .camera-fallback p {
   margin: 0;
   color: #991b1b;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
+}
+
+.badge-metadata {
+  width: calc(100% - 62px);
+  margin-top: 22px;
+  padding: 16px 18px;
+  background: #f0f0f0;
+  border: 2px solid #111111;
+  color: #111111;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  line-height: 1.65;
+  text-transform: uppercase;
+}
+
+.badge-metadata p {
+  margin: 0;
+}
+
+.badge-metadata span {
+  font-weight: 700;
 }
 
 .button-stack {
   position: relative;
   z-index: 40;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 86px;
-  padding-top: 22px;
+  width: 100%;
+  min-height: 142px;
+  margin-top: auto;
+  padding: 24px 24px 30px;
+  display: grid;
+  place-items: center;
 }
 
 button {
@@ -221,34 +286,31 @@ button:disabled {
 }
 
 .corp-button {
-  min-width: 260px;
-  padding: 16px 28px;
-  border-radius: 12px;
-  border: 1px solid #b8c0ca;
-  background:
-    linear-gradient(180deg, #fafbfd 0%, #e7ebf1 100%);
-  color: #233245;
-  font-size: 16px;
+  width: 100%;
+  max-width: 312px;
+  padding: 16px 20px;
+  border-radius: 0;
+  border: 2px solid #111111;
+  background: #3f3f3f;
+  color: #ffffff;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 14px 30px rgba(87, 103, 124, 0.16);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow: none;
   transition:
     opacity 500ms ease,
     transform 220ms ease,
-    box-shadow 220ms ease,
-    background-color 400ms ease;
+    background-color 220ms ease;
 }
 
 .corp-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 18px 34px rgba(87, 103, 124, 0.2);
+  background: #2d2d2d;
 }
 
 .trip-button,
+.rave-button,
 .reset-button {
   opacity: 0;
   pointer-events: none;
@@ -257,90 +319,52 @@ button:disabled {
     transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.trip-button {
-  position: relative;
-  min-width: 500px;
-  padding: 22px 44px 20px;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      120deg,
-      rgba(197, 77, 23, 0.98),
-      rgba(210, 58, 148, 0.97),
-      rgba(251, 188, 55, 0.98),
-      rgba(87, 31, 122, 0.96),
-      rgba(197, 77, 23, 0.98)
-    );
-  background-size: 280% 280%;
-  color: var(--trip-cream);
-  font-family: "Shrikhand", "Trebuchet MS", sans-serif;
-  font-size: 28px;
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-  text-shadow:
-    0 2px 0 rgba(91, 18, 16, 0.42),
-    0 0 14px rgba(255, 225, 140, 0.6),
-    0 0 30px rgba(213, 57, 147, 0.42);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 245, 220, 0.38),
-    inset 0 -1px 0 rgba(103, 25, 70, 0.18),
-    0 0 0 1px rgba(255, 236, 190, 0.2),
-    0 24px 54px rgba(89, 17, 74, 0.45),
-    0 0 44px rgba(255, 138, 37, 0.5),
-    0 0 120px rgba(213, 57, 147, 0.34);
-  overflow: hidden;
-  transform: translateY(20px) scale(0.96);
-}
-
-.trip-button::before,
-.trip-button::after {
-  content: "";
+.trip-button,
+.rave-button {
   position: absolute;
-  inset: -3px;
-  border-radius: inherit;
-  z-index: -2;
+  left: 50%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
-.trip-button::before {
-  background:
-    linear-gradient(
-      120deg,
-      rgba(255, 212, 112, 0.95),
-      rgba(230, 89, 45, 0.96),
-      rgba(219, 63, 161, 0.98),
-      rgba(120, 52, 165, 0.95),
-      rgba(255, 212, 112, 0.95)
-    );
-  background-size: 300% 300%;
-  filter: blur(16px);
-  opacity: 0.95;
-  animation: sunset-sway 7s linear infinite;
+.trip-button {
+  top: 8px;
+  transform: translateX(-50%) translateY(20px) scale(0.96);
 }
 
-.trip-button::after {
-  inset: 3px;
-  z-index: -1;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(128, 34, 19, 0.92),
-      rgba(143, 34, 98, 0.94),
-      rgba(120, 58, 152, 0.92),
-      rgba(236, 132, 39, 0.9)
-    );
+.rave-button {
+  top: 82px;
+  transform: translateX(-50%) translateY(20px) scale(0.96);
 }
 
-.trip-button:hover {
-  transform: translateY(-2px) scale(1.01);
+.trip-button img,
+.rave-button img {
+  display: block;
+  width: 228px;
+  height: auto;
+  transition:
+    transform 220ms ease,
+    filter 220ms ease;
 }
 
 .trip-button.visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
-  animation:
-    button-aura 2400ms ease-in-out infinite,
-    sunset-sway 8s linear infinite;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.trip-button.visible + .rave-button {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.trip-button:hover img,
+.rave-button:hover img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
 }
 
 .reset-button {
