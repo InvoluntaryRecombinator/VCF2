@@ -6,6 +6,7 @@ const elements = {
   captureStoreCanvas: document.getElementById("captureStoreCanvas"),
   verifyBtn: document.getElementById("verifyBtn"),
   tripBtn: document.getElementById("tripBtn"),
+  raveBtn: document.getElementById("raveBtn"),
   resetBtn: document.getElementById("resetBtn"),
   flashOverlay: document.getElementById("flashOverlay"),
   lavaLamp: document.getElementById("lavaLamp"),
@@ -13,11 +14,14 @@ const elements = {
   fallbackImage: document.getElementById("fallbackImage"),
   statusLine: document.getElementById("statusLine"),
   canvasStage: document.getElementById("canvasStage"),
+  laserShow: document.getElementById("laserShow"),
   mantraOverlay: document.getElementById("mantraOverlay"),
+  raveTextOverlay: document.getElementById("raveTextOverlay"),
   acidNoise: document.getElementById("acidNoise"),
   displace: document.getElementById("displace"),
   shutterAudio: document.getElementById("shutterAudio"),
   folkAudio: document.getElementById("folkAudio"),
+  raveAudio: document.getElementById("raveAudio"),
   cameraStage: document.getElementById("cameraStage"),
 };
 
@@ -52,6 +56,7 @@ function bindEvents() {
   window.addEventListener("resize", handleResize);
   elements.verifyBtn.addEventListener("click", handleVerify);
   elements.tripBtn.addEventListener("click", startTripSequence);
+  elements.raveBtn.addEventListener("click", startRaveSequence);
   elements.resetBtn.addEventListener("click", resetExperience);
 }
 
@@ -61,7 +66,11 @@ function handleResize() {
   if (state.capturedDataUrl) {
     redrawSnapshotPreview();
     if (state.phase >= 2) {
-      renderTripStill();
+      if (elements.body.classList.contains("rave-mode")) {
+        renderRaveStill();
+      } else {
+        renderTripStill();
+      }
     }
   }
 }
@@ -91,17 +100,23 @@ function bootAudioGraph() {
     const context = new AudioContextClass();
     const shutterSource = context.createMediaElementSource(elements.shutterAudio);
     const folkSource = context.createMediaElementSource(elements.folkAudio);
+    const raveSource = context.createMediaElementSource(elements.raveAudio);
     const shutterGain = context.createGain();
     const folkGain = context.createGain();
+    const raveGain = context.createGain();
 
     shutterGain.gain.value = 0.9;
     folkGain.gain.value = 0.74;
+    raveGain.gain.value = 0.82;
 
     shutterSource.connect(shutterGain);
     shutterGain.connect(context.destination);
 
     folkSource.connect(folkGain);
     folkGain.connect(context.destination);
+
+    raveSource.connect(raveGain);
+    raveGain.connect(context.destination);
 
     state.audioContext = context;
     state.audioReady = true;
@@ -363,6 +378,33 @@ async function startTripSequence() {
   queuePhase(totalLiquefactionPhase, 12000);
 }
 
+async function startRaveSequence() {
+  if (!state.capturedDataUrl || state.phase >= 2) {
+    return;
+  }
+
+  await wakeAudio();
+
+  state.phase = 2;
+  elements.tripBtn.classList.remove("visible");
+  elements.raveBtn.classList.remove("visible");
+  elements.tripBtn.classList.add("hidden");
+  elements.raveBtn.classList.add("hidden");
+  elements.raveAudio.loop = true;
+  playAudio(elements.raveAudio, false);
+
+  elements.body.classList.add("rave-mode");
+  elements.canvasStage.classList.add("active");
+  elements.canvasStage.setAttribute("aria-hidden", "false");
+  elements.laserShow.classList.remove("hidden");
+  elements.laserShow.setAttribute("aria-hidden", "false");
+
+  renderRaveStill();
+
+  queuePhase(showRaveTextOverlay, 2000);
+  queuePhase(showRaveReset, 10000);
+}
+
 function beginCreepPhase() {
   elements.body.classList.add("trip-started");
   elements.lavaLamp.classList.add("active");
@@ -481,6 +523,13 @@ function startComeDownPhase() {
   revealElement(elements.resetBtn);
 }
 
+function renderRaveStill() {
+  tripCtx.clearRect(0, 0, elements.tripCanvas.width, elements.tripCanvas.height);
+  tripCtx.fillStyle = "#000000";
+  tripCtx.fillRect(0, 0, elements.tripCanvas.width, elements.tripCanvas.height);
+  drawContain(tripCtx, elements.captureStoreCanvas, elements.tripCanvas.width, elements.tripCanvas.height, 0.82);
+}
+
 function renderTripStill() {
   tripCtx.clearRect(0, 0, elements.tripCanvas.width, elements.tripCanvas.height);
   tripCtx.fillStyle = "rgba(7, 0, 14, 0.18)";
@@ -520,6 +569,14 @@ function playAudio(audioElement, restart) {
 function updateStatus(message, isError = false) {
   elements.statusLine.textContent = message;
   elements.statusLine.classList.toggle("error", isError);
+}
+
+function showRaveTextOverlay() {
+  revealElement(elements.raveTextOverlay);
+}
+
+function showRaveReset() {
+  revealElement(elements.resetBtn);
 }
 
 function resetExperience() {

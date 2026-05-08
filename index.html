@@ -92,7 +92,6 @@
             class="rave-button png-reveal-btn"
             type="button"
             aria-label="Enter the rave route"
-            onclick="document.getElementById('tripBtn').click()"
           >
             <img src="assets/rave_button.png" alt="Enter the Rave" />
           </button>
@@ -102,6 +101,12 @@
 
     <div id="canvasStage" class="canvas-stage" aria-hidden="true">
       <canvas id="tripCanvas"></canvas>
+      <div id="laserShow" class="laser-show hidden" aria-hidden="true">
+        <div class="laser-beam beam-one"></div>
+        <div class="laser-beam beam-two"></div>
+        <div class="laser-beam beam-three"></div>
+        <div class="laser-beam beam-four"></div>
+      </div>
     </div>
 
     <div
@@ -112,6 +117,9 @@
     >
       <span class="mantra-text">Welcome to Vibe Code Fridays. Surrender to the flow.</span>
     </div>
+    <div id="raveTextOverlay" class="rave-text-overlay hidden" aria-live="polite">
+      VIBE CODE FRIDAYS:<br />RAVE PROTOCOL
+    </div>
     <button id="resetBtn" class="reset-button hidden" type="button">
       Take me back to boring regular life
     </button>
@@ -120,6 +128,7 @@
 
     <audio id="shutterAudio" src="assets/shutter_click.wav" preload="auto"></audio>
     <audio id="folkAudio" src="assets/VCF_folk.mp3" preload="auto"></audio>
+    <audio id="raveAudio" src="assets/VCF_EDM.mp3" preload="auto"></audio>
 
     <script src="app.js"></script>
   </body>

@@ -577,6 +577,143 @@ button:disabled {
   animation: textBreathe 3200ms ease-in-out infinite alternate;
 }
 
+body.rave-mode {
+  background: #000000;
+  color: #ffffff;
+}
+
+body.rave-mode .portal-shell {
+  opacity: 0;
+  transform: translateY(36px) scale(0.92);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+body.rave-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 58%),
+    #ffffff;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: strobe-flash 180ms steps(2, end) infinite;
+}
+
+body.rave-mode .canvas-stage {
+  opacity: 1;
+  transform: scale(1);
+  filter: saturate(1.95) contrast(1.4) brightness(1.08) hue-rotate(14deg);
+  animation: bass-bounce 0.4s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+body.rave-mode #tripCanvas {
+  filter:
+    contrast(1.45)
+    saturate(1.8)
+    hue-rotate(18deg)
+    brightness(1.04)
+    drop-shadow(0 0 24px rgba(255, 255, 255, 0.34));
+}
+
+.laser-show {
+  position: absolute;
+  inset: -12vh -12vw;
+  z-index: 16;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+body.rave-mode .laser-show {
+  opacity: 1;
+}
+
+.laser-beam {
+  position: absolute;
+  top: -10vh;
+  width: 2px;
+  height: 120vh;
+  transform-origin: center top;
+  opacity: 0.92;
+}
+
+.beam-one,
+.beam-three {
+  background: linear-gradient(180deg, rgba(151, 255, 0, 0), rgba(145, 255, 0, 0.95), rgba(151, 255, 0, 0));
+  box-shadow:
+    0 0 18px rgba(145, 255, 0, 0.8),
+    0 0 44px rgba(145, 255, 0, 0.7),
+    0 0 88px rgba(145, 255, 0, 0.45);
+}
+
+.beam-two,
+.beam-four {
+  background: linear-gradient(180deg, rgba(255, 0, 175, 0), rgba(255, 0, 175, 0.95), rgba(255, 0, 175, 0));
+  box-shadow:
+    0 0 18px rgba(255, 0, 175, 0.82),
+    0 0 44px rgba(255, 0, 175, 0.72),
+    0 0 88px rgba(255, 0, 175, 0.46);
+}
+
+.beam-one {
+  left: 14%;
+  animation: sweep 1.8s linear infinite alternate;
+}
+
+.beam-two {
+  left: 34%;
+  animation: sweep 1.4s linear infinite alternate-reverse;
+}
+
+.beam-three {
+  left: 66%;
+  animation: sweep 2.2s linear infinite alternate;
+}
+
+.beam-four {
+  left: 84%;
+  animation: sweep 1.6s linear infinite alternate-reverse;
+}
+
+.rave-text-overlay {
+  position: fixed;
+  left: 50%;
+  bottom: 52px;
+  z-index: 92;
+  width: calc(100vw - 80px);
+  max-width: 1200px;
+  opacity: 0;
+  pointer-events: none;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateX(-50%) scale(0.94);
+  text-shadow:
+    -4px 0 0 #00eaff,
+    4px 0 0 #ff00aa,
+    0 0 18px rgba(255, 255, 255, 0.5);
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.rave-text-overlay.visible {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  animation: rgb-jitter 120ms steps(2, end) infinite;
+}
+
 #flashOverlay {
   position: fixed;
   inset: 0;
@@ -749,5 +886,60 @@ button:disabled {
       14px 32px 0 rgba(0, 231, 255, 0.68),
       -14px 38px 0 rgba(255, 0, 183, 0.58),
       0 52px 72px rgba(110, 0, 120, 0.74);
+  }
+}
+
+@keyframes bass-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes strobe-flash {
+  0%,
+  55%,
+  100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.04;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  40% {
+    opacity: 0.02;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translate3d(-16vw, -8vh, 0) rotate(-72deg) scaleY(0.9);
+  }
+  50% {
+    transform: translate3d(8vw, 2vh, 0) rotate(4deg) scaleY(1.08);
+  }
+  100% {
+    transform: translate3d(22vw, -4vh, 0) rotate(74deg) scaleY(0.96);
+  }
+}
+
+@keyframes rgb-jitter {
+  0%,
+  100% {
+    text-shadow:
+      -4px 0 0 #00eaff,
+      4px 0 0 #ff00aa,
+      0 0 18px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      -6px 1px 0 #00eaff,
+      6px -1px 0 #ff00aa,
+      0 0 24px rgba(255, 255, 255, 0.64);
   }
 }
