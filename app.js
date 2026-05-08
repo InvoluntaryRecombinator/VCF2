@@ -354,13 +354,12 @@ async function startTripSequence() {
   playAudio(elements.folkAudio, false);
 
   beginCreepPhase();
-  queuePhase(startAcidWave, 5000);
-  queuePhase(startMeltdownPhase, 10000);
-  queuePhase(startColorBleedPhase, 15000);
-  queuePhase(intensifyAcidWave, 20000);
+  startMeltdownPhase();
+  queuePhase(startColorBleedPhase, 5000);
+  queuePhase(intensifyAcidWave, 7500);
+  queuePhase(startComeDownPhase, 10000);
+  queuePhase(totalLiquefactionPhase, 15000);
   queuePhase(showMantraOverlay, 20000);
-  queuePhase(totalLiquefactionPhase, 30000);
-  queuePhase(startComeDownPhase, 40000);
 }
 
 function beginCreepPhase() {
@@ -382,7 +381,7 @@ function startAcidWave() {
 
   state.acidWaveActive = true;
   elements.canvasStage.classList.add("rippling");
-  setDisplacementScale(12);
+  setDisplacementScale(100);
 
   const breathe = (time) => {
     const baseFrequency = 0.015 + Math.sin(time * 0.00065) * 0.005;
@@ -399,48 +398,47 @@ function startMeltdownPhase() {
     startAcidWave();
   }
 
-  setDisplacementScale(30);
-
   const render = (time) => {
-    const pulse = 1.02 + Math.sin(time * 0.00082) * 0.075;
-    const echoScale = 0.94 + Math.cos(time * 0.00054) * 0.05;
-    const xOffset = Math.cos(time * 0.00058) * 250;
-    const yOffset = Math.sin(time * 0.00072) * 250;
-    const rotation = Math.sin(time * 0.00046) * 0.035;
-    const echoRotation = Math.cos(time * 0.00034) * 0.022;
+    const width = elements.tripCanvas.width;
+    const height = elements.tripCanvas.height;
+    const baseSpin = time * 0.00022;
+    const sweep = Math.sin(time * 0.0012) * 80;
+    const radius = Math.min(width, height) * 0.15 + sweep;
+    const pulse = 0.42 + Math.sin(time * 0.0009) * 0.04;
+    const sliceRotation = (Math.PI * 2) / 6;
 
     const sourceWidth = elements.captureStoreCanvas.width;
     const sourceHeight = elements.captureStoreCanvas.height;
-    const baseScale = Math.min(
-      elements.tripCanvas.width / sourceWidth,
-      elements.tripCanvas.height / sourceHeight
-    );
+    const baseScale = Math.min(width / sourceWidth, height / sourceHeight);
     const drawWidth = sourceWidth * baseScale * pulse;
     const drawHeight = sourceHeight * baseScale * pulse;
-    const echoWidth = drawWidth * echoScale;
-    const echoHeight = drawHeight * echoScale;
+
+    tripCtx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    tripCtx.fillRect(0, 0, width, height);
+    tripCtx.globalCompositeOperation = "source-over";
 
     tripCtx.save();
-    tripCtx.translate(elements.tripCanvas.width / 2 + xOffset, elements.tripCanvas.height / 2 + yOffset);
-    tripCtx.rotate(rotation);
-    tripCtx.globalCompositeOperation = "source-over";
-    tripCtx.globalAlpha = 0.1;
-    tripCtx.drawImage(
-      elements.captureStoreCanvas,
-      -drawWidth / 2,
-      -drawHeight / 2,
-      drawWidth,
-      drawHeight
-    );
-    tripCtx.rotate(echoRotation);
-    tripCtx.globalAlpha = 0.08;
-    tripCtx.drawImage(
-      elements.captureStoreCanvas,
-      -echoWidth / 2 - xOffset * 0.16,
-      -echoHeight / 2 + yOffset * 0.16,
-      echoWidth,
-      echoHeight
-    );
+    tripCtx.translate(width / 2, height / 2);
+    tripCtx.rotate(baseSpin);
+
+    for (let index = 0; index < 6; index += 1) {
+      const wobble = Math.sin(time * 0.0014 + index * 0.9) * 40;
+
+      tripCtx.save();
+      tripCtx.rotate(sliceRotation * index);
+      tripCtx.translate(radius + wobble, 0);
+      tripCtx.rotate(baseSpin * 0.6 + Math.cos(time * 0.001 + index) * 0.18);
+      tripCtx.globalAlpha = 0.3;
+      tripCtx.drawImage(
+        elements.captureStoreCanvas,
+        -drawWidth / 2,
+        -drawHeight / 2,
+        drawWidth,
+        drawHeight
+      );
+      tripCtx.restore();
+    }
+
     tripCtx.restore();
 
     state.rafId = requestAnimationFrame(render);
@@ -456,7 +454,7 @@ function startColorBleedPhase() {
 }
 
 function intensifyAcidWave() {
-  setDisplacementScale(100);
+  setDisplacementScale(200);
 }
 
 function showMantraOverlay() {
